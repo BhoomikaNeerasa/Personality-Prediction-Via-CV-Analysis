@@ -22,7 +22,7 @@ ALLOWED_EXTENSIONS = {"pdf", "docx"}
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ✅ Connect to MongoDB
-MONGO_URI = "mongodb+srv://nani:nani123@cluster0.d1dd8.mongodb.net/"
+MONGO_URI = "mongodb+srv://username:password@cluster0.d1dd8.mongodb.net/"
 client = pymongo.MongoClient(MONGO_URI)
 db = client["resumedb"]  # Change to your actual database name
 collection = db["skills"]  # Collection to store extracted skills & predictions
