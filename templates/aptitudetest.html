@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Aptitude Test</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #d8c9ae;
+			}
+			.container {
+				width: 60%;
+				margin: 30px auto;
+				padding: 20px;
+				background-color: white;
+				border-radius: 10px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			.btn {
+				background-color: #a18a4f;
+				color: white;
+				padding: 10px 20px;
+				border-radius: 5px;
+				text-decoration: none;
+				font-size: 16px;
+				transition: 0.3s;
+			}
+			.btn:hover {
+				background-color: #575757;
+			}
+			footer {
+				text-align: center;
+				padding: 20px;
+				background-color: #333;
+				color: white;
+				position: fixed;
+				width: 100%;
+				bottom: 0;
+			}
+			.navbar {
+				background-color: #333;
+				padding: 10px 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-radius: 10px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			.navbar a {
+				color: white;
+				text-decoration: none;
+				padding: 10px 15px;
+				border-radius: 4px;
+				font-weight: bold;
+				transition: background-color 0.3s;
+			}
+			.navbar a:hover {
+				background-color: #575757;
+			}
+			.dropdown {
+				position: relative;
+				display: inline-block;
+			}
+			.dropdown-menu {
+				display: none;
+				position: absolute;
+				background-color: white;
+				min-width: 200px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+				z-index: 1;
+			}
+			.dropdown-menu a {
+				color: black;
+				padding: 12px 16px;
+				display: block;
+				text-decoration: none;
+				transition: background 0.3s;
+			}
+			.dropdown-menu a:hover {
+				background-color: #f1f1f1;
+			}
+			.dropdown:hover .dropdown-menu {
+				display: block;
+			}
+			.user-dropdown {
+				position: relative;
+				display: inline-block;
+			}
+			.user-dropdown-menu {
+				display: none;
+				position: absolute;
+				right: 0;
+				background-color: white;
+				min-width: 150px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+				z-index: 1;
+			}
+			.user-dropdown-menu a {
+				color: black;
+				padding: 10px 15px;
+				display: block;
+				text-decoration: none;
+			}
+			.user-dropdown-menu a:hover {
+				background-color: #f1f1f1;
+			}
+			.user-dropdown:hover .user-dropdown-menu {
+				display: block;
+			}
+		</style>
+	  <script>
+        async function checkTestStatus() {
+            const email = getCookie("email");
+            if (!email) return;
+
+            const response = await fetch("/check_test_status", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, test_type: "aptitude" })
+            });
+
+            const data = await response.json();
+            if (data.taken) {
+                alert("You have already taken this test. Redirecting to dashboard.");
+                window.location.href = "/userhome";
+            }
+        }
+
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookiePair = cookieArr[i].trim().split("=");
+                if (cookiePair[0] === name) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        document.addEventListener("DOMContentLoaded", checkTestStatus);
+    </script>
+	
+		
+		<script>
+			function getCookie(name) {
+				let cookieArr = document.cookie.split(";");
+
+				for (let i = 0; i < cookieArr.length; i++) {
+					let cookiePair = cookieArr[i].trim().split("=");
+
+					if (cookiePair[0] === name) {
+						return decodeURIComponent(cookiePair[1]);
+					}
+				}
+				return null; // Return null if cookie not found
+			}
+			function calculateAptitudeScore(event) {
+				event.preventDefault();
+
+				let score = 0;
+				let totalQuestions = Object.keys(answers).length;
+
+				for (let key in answers) {
+					let selected = document.querySelector(`input[name="${key}"]:checked`);
+					if (selected && selected.value === answers[key]) {
+						score++;
+					}
+				}
+
+				let percentage = (score / totalQuestions) * 100;
+
+				// Save to localStorage
+				localStorage.setItem("aptitudeScore", score + ' /' + totalQuestions);
+				localStorage.setItem("aptitudePercentage", percentage.toFixed(2));
+				localStorage.setItem("testType", "aptitude");
+				var URL = "/save_score";
+				fetch("/save_score", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(
+						{
+							score: score,
+							percentage: percentage.toFixed(2),
+							type1: "Aptitude Test Score",
+							type2: "Aptitude Test Percentage",
+							email: getCookie("email")
+						}
+					)
+				}).then(response => response.json()).then(data => {
+					console.log(data);
+				}).catch(error => {
+					console.error("Error:", error);
+				});
+				window.location.href = "/result"; // Redirect to results page
+			}
+		</script>
+	</head>
+	<body>
+
+
+		<div class="navbar">
+			<a href="/userhome">Home</a>
+
+			<div class="dropdown">
+				<a href="javascript:void(0);">Tests ▼</a>
+				<div class="dropdown-menu">
+					<a href="/aptitudetest">Aptitude Test</a>
+					<a href="/personalitytest">Personality Test</a>
+				</div>
+			</div>
+
+			<div class="user-dropdown">
+				<a href="javascript:void(0);">User ▼</a>
+				<div class="user-dropdown-menu">
+					<a href="/editprofile">Edit Profile</a>
+					<a href="/">Logout</a>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="container">
+			<h2>Aptitude Test</h2>
+			<form onsubmit="calculateAptitudeScore(event)">
+				<div id="questions-container"></div>
+				<script>
+					var answers = {};
+					const questionsContainer = document.getElementById('questions-container');
+					fetch(`/get_questions?testType=Aptitude`, {
+						method: 'GET',
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					}).then(response => response.json()).then(data => {
+						data.questions.forEach((question, index) => {
+							answers[question.questionText] = question.correctAnswer;
+							let questionHTML = `<div style="margin-top: 10px;">
+                    <p style="margin-bottom: 2px;">
+                        <strong>${
+								index + 1
+							}. ${
+								question.questionText
+							}</strong>
+                    </p>
+                `;
+
+
+							question.options.forEach((option, i) => {
+								questionHTML += `
+						<input type="radio" name="${
+									question.questionText
+								}" value="${option}"> <label>${option}</label><br>
+					`;
+							});
+							questionsContainer.innerHTML += questionHTML + `</div>`;
+						});
+					});
+				</script>
+
+
+				<button title="Are you sure?" type="submit" class="btn mt-3">
+					Submit Test
+				</button>
+			</form>
+		</div>
+
+		<footer>
+			&copy; 2025 Online Test System. All rights reserved.
+		</footer>
+
+	</body>
+</html>

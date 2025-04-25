@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Manage Aptitude and Personality Questions</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<style>
+			body {
+				font-family: 'Arial', sans-serif;
+				margin: 0;
+				padding: 0;
+				background-color: #d8c9ae;
+			}
+
+			header {
+				background-color: #333;
+				color: white;
+				text-align: center;
+				padding: 10px 0;
+				font-size: 24px;
+				margin-top: 10px;
+			}
+
+			.container {
+				width: 90%;
+				max-width: 800px;
+				margin: 30px auto;
+				text-align: center;
+			}
+
+			.section {
+				display: none;
+				margin-top: 20px;
+				padding: 20px;
+				background: #fff;
+				border-radius: 8px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			/* Buttons */
+			button,
+			.btn {
+				display: inline-block;
+				width: 100%;
+				padding: 12px;
+				font-size: 16px;
+				background-color: #575757;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+				transition: 0.3s;
+			}
+
+			button:hover,
+			.btn:hover {
+				background-color: #d8c9ae;
+			}
+
+			.submit-btn {
+				background-color: #caa96c;
+				color: black;
+				font-weight: bold;
+			}
+
+			.submit-btn:hover {
+				background-color: #bfa67b;
+			}
+
+			/* Forms */
+			form {
+				background-color: #444;
+				padding: 20px;
+				border-radius: 10px;
+				color: white;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			label {
+				display: block;
+				font-size: 16px;
+				margin-bottom: 5px;
+				text-align: start;
+			}
+
+			input,
+			select {
+				width: 100%;
+				padding: 10px;
+				margin-bottom: 15px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+				font-size: 16px;
+			}
+
+			/* Table */
+			table {
+				width: 100%;
+				margin-top: 20px;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				padding: 12px;
+				text-align: center;
+				border: 1px solid #ddd;
+			}
+
+			th {
+				background-color: #575757;
+				color: white;
+			}
+
+			td {
+				background-color: #f9f9f9;
+				color: black;
+			}
+
+			/* Responsive */
+			@media(max-width: 768px) {
+				.container {
+					width: 95%;
+				}
+
+				button {
+					font-size: 14px;
+				}
+			}
+			.navbar {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 15px 20px;
+				background-color: #8d763c;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				position: relative;
+
+			}
+
+			.nav-container {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.nav-left,
+			.nav-right {
+				display: flex;
+				gap: 20px;
+			}
+
+			.nav-link {
+				text-decoration: none;
+				color: black;
+				padding: 10px;
+				transition: background-color 0.3s ease, color 0.3s ease;
+				font-weight: bold;
+			}
+
+			.nav-link:hover {
+				background-color: #575757;
+				color: white;
+				border-radius: 5px;
+			}
+
+			/* Mobile Menu */
+			.menu-toggle {
+				display: none;
+				font-size: 24px;
+				cursor: pointer;
+			}
+
+			/* Responsive Navbar */
+			@media(max-width: 768px) {
+				.nav-left,
+				.nav-right {
+					display: none;
+					flex-direction: column;
+					background-color: #a18a4f;
+					position: absolute;
+					top: 60px;
+					left: 0;
+					width: 100%;
+					text-align: center;
+					padding: 10px 0;
+				}
+
+				.nav-left.active,
+				.nav-right.active {
+					display: flex;
+				}
+
+				.menu-toggle {
+					display: block;
+				}
+			}
+			.user-dropdown {
+				position: relative;
+				display: inline-block;
+				vertical-align: middle;
+				margin-top: 10px;
+			}
+			.user-dropdown-menu {
+				display: none;
+				position: absolute;
+				right: 0;
+				background-color: white;
+				min-width: 150px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+				z-index: 1;
+			}
+			.user-dropdown-menu a {
+				color: black;
+				padding: 10px 15px;
+				display: block;
+				text-decoration: none;
+			}
+			.user-dropdown-menu a:hover {
+				background-color: #575757;
+			}
+			.user-dropdown:hover .user-dropdown-menu {
+				display: block;
+			}
+			.navbar a {
+				color: black;
+				text-decoration: none;
+				padding: 10px 20px;
+				transition: background-color 0.3s ease;
+			}
+		</style>
+	</head>
+	<body>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			function toggleMenu() {
+				document.querySelector(".nav-left").classList.toggle("active");
+				document.querySelector(".nav-right").classList.toggle("active");
+			}
+		</script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+		<nav class="navbar">
+			<div class="nav-container">
+				<div class="nav-left">
+					<a class="nav-link" href="/adminhome">Home</a>
+					<a class="nav-link, href=" /admintests">Manage Questions</a>
+					<div class="nav-right">
+						<a class="nav-link logout" href="/">Logout</a>
+					</div>
+				</div>
+				<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+			</nav>
+
+
+			<header>
+				<h1>Manage Aptitude and Personality Prediction Questions</h1>
+			</header>
+
+			<div class="container">
+				<form id="questionForm" method="POST">
+
+					<h2>Add a New Question</h2>
+					<label for="languages">Choose a category:</label>
+					<select id="languages" name="languages">
+						<option value="" disabled selected>Select a category</option>
+						<option value="math">Math</option>
+						<option value="english">English</option>
+						<option value="programming">Programming</option>
+					</select>
+
+					<p>
+						<strong>Select question type:</strong>
+					</p>
+					<div>
+						<input type="radio" id="leader" name="question_type" value="aptitude">
+						<label for="leader">Aptitude</label>
+					</div>
+					<div>
+						<input type="radio" id="independent" name="question_type" value="personality">
+						<label for="independent">Personality-based</label>
+					</div>
+				</form>
+			</div>
+
+			<div id="sectionaptitude" class="section">
+				<h2>Aptitude Questions</h2>
+				<form id="aptitudeForm">
+					<label for="aptitudeQuestion">Enter your question:</label>
+					<input type="text" id="aptitudeQuestion" placeholder="Enter your question" required>
+
+					<div class="options">
+						<label><input type="text" id="optionA" placeholder="Option A" required></label>
+						<label><input type="text" id="optionB" placeholder="Option B" required></label>
+						<label><input type="text" id="optionC" placeholder="Option C" required></label>
+						<label><input type="text" id="optionD" placeholder="Option D" required></label>
+					</div>
+
+					<label for="answer">Correct Answer:</label>
+					<input type="text" id="answer" placeholder="Correct Answer" required>
+
+					<button type="submit" class="btn" id="submitQuestion">Add Question</button>
+					<input type="hidden" id="questionId" value="">
+
+				</form>
+			</div>
+
+			<div id="sectionperso" class="section">
+				<h2>Personality Questions</h2>
+				<form id="personalityForm">
+					<label for="personalityQuestion">Enter your question:</label>
+					<input type="text" id="personalityQuestion" placeholder="Enter your question" required>
+
+					<div class="form-group">
+
+						<select id="select1" required>
+							<option value="" disabled selected>Select Option</option>
+							<option value="Strongly agree">Strongly agree</option>
+							<option value="Agree">Agree</option>
+							<option value="Neutral">Neutral</option>
+							<option value="Disagree">Disagree</option>
+							<option value="Strongly disagree">Strongly disagree</option>
+						</select>
+					</div>
+					<div class="form-group">
+
+						<select id="select2" required>
+							<option value="" disabled selected>Select Option</option>
+							<option value="Strongly agree">Strongly agree</option>
+							<option value="Agree">Agree</option>
+							<option value="Neutral">Neutral</option>
+							<option value="Disagree">Disagree</option>
+							<option value="Strongly disagree">Strongly disagree</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select id="select3" required>
+							<option value="" disabled selected>Select Option</option>
+							<option value="Strongly agree">Strongly agree</option>
+							<option value="Agree">Agree</option>
+							<option value="Neutral">Neutral</option>
+							<option value="Disagree">Disagree</option>
+							<option value="Strongly disagree">Strongly disagree</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select id="select4" required>
+							<option value="" disabled selected>Select Option</option>
+							<option value="Strongly agree">Strongly agree</option>
+							<option value="Agree">Agree</option>
+							<option value="Neutral">Neutral</option>
+							<option value="Disagree">Disagree</option>
+							<option value="Strongly disagree">Strongly disagree</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select id="select5" required>
+							<option value="" disabled selected>Select Option</option>
+							<option value="Strongly agree">Strongly agree</option>
+							<option value="Agree">Agree</option>
+							<option value="Neutral">Neutral</option>
+							<option value="Disagree">Disagree</option>
+							<option value="Strongly disagree">Strongly disagree</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Correct Answer:</label>
+						<select id="select6" required>
+							<option value="" disabled selected>Select Answer</option>
+							<option value="Strongly agree">Strongly agree</option>
+							<option value="Agree">Agree</option>
+							<option value="Neutral">Neutral</option>
+							<option value="Disagree">Disagree</option>
+							<option value="Strongly disagree">Strongly disagree</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div><!-- Table for displaying existing questions --><div class="container">
+				<h2>Existing Questions</h2>
+				<table id="questionsTable">
+					<thead>
+						<tr>
+							<th>Category</th>
+							<th>Question</th>
+							<th>Type</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Existing questions will be added here dynamically -->
+					</tbody>
+				</table>
+			</div>
+			<script>
+				document.getElementById("questionForm").addEventListener("submit", async function (event) {
+					event.preventDefault();
+					// Prevent page reload
+
+					// Get form data
+					let questionText = document.getElementById("questionText").value.trim();
+					let options = Array.from(document.getElementsByName("option")).map(input => input.value.trim());
+					let answer = document.getElementById("answer").value.trim();
+
+					// Validate inputs
+					if (! questionText || options.length !== 4 || options.includes("") || ! answer) {
+						alert("Please fill in all fields correctly!");
+						return;
+					}
+
+					// Create JSON payload
+					let questionData = {
+						questionText: questionText,
+						options: options,
+						answer: answer
+					};
+
+					// Send data to backend using Fetch API
+					try {
+						let response = await fetch("http://localhost:9999/addquestion", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify(questionData)
+						});
+
+						let result = await response.json();
+						if (result.success) {
+							alert("✅ Question added successfully!");
+							document.getElementById("questionForm").reset(); // Clear form
+						} else {
+							alert("❌ Error: " + result.error);
+						}
+					} catch (error) {
+						console.error("Error:", error);
+						alert("❌ Failed to send data.");
+					}
+				});
+			</script>
+			<script>
+				document.addEventListener("DOMContentLoaded", function () {
+					document.getElementById('sectionaptitude').style.display = 'none';
+					document.getElementById('sectionperso').style.display = 'none';
+
+					function showSection(section) {
+						document.getElementById('sectionaptitude').style.display = 'none';
+						document.getElementById('sectionperso').style.display = 'none';
+						document.getElementById(section).style.display = 'block';
+					}
+
+					document.getElementById('leader').addEventListener("change", function () {
+						showSection('sectionaptitude');
+					});
+
+					document.getElementById('independent').addEventListener("change", function () {
+						showSection('sectionperso');
+					});
+
+					// Fetch questions from the backend when the page loads and log the response
+
+					$.ajax({
+						url: '/get_questions',
+						type: 'GET',
+						success: function (response) {
+							console.log(response); // Log the response to check the structure
+							response.questions.forEach(function (question) {
+								addQuestionToTable(question.category, question.questionText, question.type, question._id);
+							});
+						},
+						error: function (xhr, status, error) {
+							console.error('Error fetching questions:', error); // Log the error
+							alert('An error occurred while fetching questions.');
+						}
+					});
+
+					// Function to add questions dynamically to the table
+					function addQuestionToTable(category, question, type, questionId) {
+						let table = document.getElementById("questionsTable").getElementsByTagName('tbody')[0];
+						let newRow = table.insertRow();
+						let categoryCell = newRow.insertCell(0);
+						let questionCell = newRow.insertCell(1);
+						let typeCell = newRow.insertCell(2);
+						let actionsCell = newRow.insertCell(3);
+						categoryCell.textContent = category;
+						questionCell.textContent = question;
+						typeCell.textContent = type;
+						actionsCell.innerHTML = `
+						<button class="action-btn edit" style='width:50%; margin-bottom:2px' onclick="editQuestion('${category}', '${question}', '${type}')">Edit</button>
+                        <button class="action-btn delete" style='width:50%; margin-bottom:2px' onclick="deleteQuestion(this, '${questionId}')">Delete</button>
+                        <input type="hidden, class="questionId" style='display:none;' value="${questionId}">
+					`;
+					}
+
+					// Handle form submission for aptitude questions
+					document.getElementById("aptitudeForm").addEventListener("submit", function (event) {
+						event.preventDefault();
+						let question = document.getElementById("aptitudeQuestion").value;
+						let category = document.getElementById("languages").value;
+						let options = [document.getElementById("optionA").value, document.getElementById("optionB").value, document.getElementById("optionC").value, document.getElementById("optionD").value];
+
+						// Send data to the backend
+						$.ajax({
+							url: '/add_question',
+							type: 'POST',
+							contentType: 'application/json',
+							data: JSON.stringify(
+								{
+									category: category,
+									type: "Aptitude",
+									question: question,
+									options: options, // Include options here
+									correctAnswer: document.getElementById("answer").value // Correct answer value
+								}
+							),
+							success: function (response) {
+								if (response.success) {
+									addQuestionToTable(category, question, "Aptitude", response.questionId); // Add to table
+									alert('Question added successfully!');
+								} else {
+									alert('Error adding question: ' + response.error);
+								}
+							},
+							error: function () {
+								alert('An error occurred while adding the question.');
+							}
+						});
+						this.reset();
+					});
+
+					// Handle form submission for personality questions
+					document.getElementById("personalityForm").addEventListener("submit", function (event) {
+						event.preventDefault();
+						let question = document.getElementById("personalityQuestion").value;
+						let category = "Personality";
+						let options = [
+							document.getElementById("select1").value,
+							document.getElementById("select2").value,
+							document.getElementById("select3").value,
+							document.getElementById("select4").value,
+							document.getElementById("select5").value
+						];
+
+						// Send data to the backend
+						$.ajax({
+							url: '/add_question',
+							type: 'POST',
+							contentType: 'application/json',
+							data: JSON.stringify(
+								{
+									category: category,
+									type: "Personality",
+									question: question,
+									options: options, // Include options here
+									correctAnswer: document.getElementById('select6').value // Send selected response
+								}
+							),
+							success: function (response) {
+								if (response.success) {
+									addQuestionToTable(category, question, "Personality", response.questionId); // Add to table
+									alert('Question added successfully!');
+								} else {
+									alert('Error adding question: ' + response.error);
+								}
+							},
+							error: function () {
+								alert('An error occurred while adding the question.');
+							}
+						});
+						this.reset();
+					});
+
+					// Function to delete a question from the table and the database
+					window.deleteQuestion = function (button, questionId) {
+						console.log("Deleting question with ID:", questionId); // Log the question ID
+
+						let row = button.parentNode.parentNode;
+						// let questionId = row.querySelector('.questionId').value; // Get the questionId from the hidden input
+
+						$.ajax({
+							url: '/delete_question',
+							type: 'POST',
+							contentType: 'application/json',
+							data: JSON.stringify(
+								{id: questionId}
+							),
+							success: function (response) {
+								if (response.success) {
+									row.parentNode.removeChild(row);
+									alert('Question deleted successfully!');
+								} else {
+									alert('Error deleting question: ' + response.error);
+								}
+							},
+							error: function () {
+								alert('An error occurred while deleting the question.');
+							}
+						});
+					};
+
+					// Function to edit a question
+					window.editQuestion = function (category, question, type, questionId) {
+						document.getElementById("languages").value = category;
+						document.querySelector(`input[name="question_type"][value="${
+							type.toLowerCase()
+						}"]`).checked = true;
+						if (type === "Aptitude") {
+							document.getElementById("aptitudeQuestion").value = question;
+							document.getElementById("sectionaptitude").style.display = 'block';
+						} else {
+							document.getElementById("personalityQuestion").value = question;
+							document.getElementById("sectionperso").style.display = 'block';
+						}
+					}
+				});
+			</script>
+		</body>
+	</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Aptitude and Personality Questions</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d8c9ae;
+        }
+
+        header {
+            background-color: #575757;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #a18a4f;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.nav-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    background-color: #575757;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Mobile Menu */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+    .nav-left, .nav-right {
+        display: none;
+        flex-direction: column;
+        background-color: #a18a4f;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-left.active, .nav-right.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+.user-dropdown {
+				position: relative;
+				display: inline-block;
+				vertical-align: middle;
+				margin-top: 10px;
+			}
+			.user-dropdown-menu {
+				display: none;
+				position: absolute;
+				right: 0;
+				background-color: white;
+				min-width: 150px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+				z-index: 1;
+			}
+			.user-dropdown-menu a {
+				color: black;
+				padding: 10px 15px;
+				display: block;
+				text-decoration: none;
+			}
+			.user-dropdown-menu a:hover {
+				background-color: #575757;
+			}
+			.user-dropdown:hover .user-dropdown-menu {
+				display: block;
+			}
+            .navbar a {
+				color: black;
+				text-decoration: none;
+				padding: 10px 20px;
+				transition: background-color 0.3s ease;
+			}
+
+			
+    </style>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a class="nav-link" href="/adminhome">Home</a>
+                <a class="nav-link" href="/admintests">Manage Questions</a>
+                <a class="nav-link " href="#" data-toggle="tab" onclick="display_tab('sectiondetails')">ViewDetails</a>
+                <div class="user-dropdown">
+                    <a href="javascript:void(0);">Job details</a>
+                    <div class="user-dropdown-menu">
+                        <a class="nav-link" href="#" data-toggle="tab" onclick="display_tab('sectionjobdetails')">Add Job Details</a>
+                        <a class="nav-link" href="#" data-toggle="tab" onclick="display_tab('sectionrdetails')">Requirement details</a>
+                        <a class="nav-link" href="#" data-toggle="tab" onclick="display_tab('sectioncv')">Preferred CVs</a>
+                        <a class="nav-link" href="#" data-toggle="tab" onclick="display_tab('sectionscv')">Shortlist CVs</a>
+                    
+                    </div>
+            </div>
+            <div class="nav-right">
+                <a class="nav-link logout" href="/">Logout</a>
+            </div>
+        </div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    </nav>
+    
+
+<script>
+   function toggleMenu() {
+    document.querySelector(".nav-left").classList.toggle("active");
+    document.querySelector(".nav-right").classList.toggle("active");
+}
+
+</script>
+
+</body>
+</html>

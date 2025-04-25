@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<title>User Dashboard</title>
+
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+				background-color: #d8c9ae;
+			}
+			.container {
+				width: 80%;
+				margin: 30px auto;
+				text-align: center;
+				border-radius: 10px;
+				background-color: white;
+				padding: 20px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			.btn {
+				background-color: #a18a4f;
+				color: white;
+				padding: 15px 25px;
+				border-radius: 5px;
+				font-size: 18px;
+				text-decoration: none;
+				transition: background 0.3s ease;
+				border: none;
+			}
+			.btn:hover {
+				background-color: #575757;
+			}
+			.navbar {
+				background-color: #333;
+				padding: 10px 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-radius: 10px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+			.navbar a {
+				color: white;
+				text-decoration: none;
+				padding: 10px 15px;
+				border-radius: 4px;
+				font-weight: bold;
+				transition: background-color 0.3s;
+			}
+			.navbar a:hover {
+				background-color: #575757;
+			}
+			.dropdown {
+				position: relative;
+				display: inline-block;
+			}
+			.dropdown-menu {
+				display: none;
+				position: absolute;
+				background-color: white;
+				min-width: 200px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+				z-index: 1;
+			}
+			.dropdown-menu a {
+				color: black;
+				padding: 12px 16px;
+				display: block;
+				text-decoration: none;
+				transition: background 0.3s;
+			}
+			.dropdown-menu a:hover {
+				background-color: #f1f1f1;
+			}
+			.dropdown:hover .dropdown-menu {
+				display: block;
+			}
+			.user-dropdown {
+				position: relative;
+				display: inline-block;
+			}
+			.user-dropdown-menu {
+				display: none;
+				position: absolute;
+				right: 0;
+				background-color: white;
+				min-width: 150px;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+				z-index: 1;
+			}
+			.user-dropdown-menu a {
+				color: black;
+				padding: 10px 15px;
+				display: block;
+				text-decoration: none;
+			}
+			.user-dropdown-menu a:hover {
+				background-color: #f1f1f1;
+			}
+			.user-dropdown:hover .user-dropdown-menu {
+				display: block;
+			}
+			.disabled-link {
+        pointer-events: none;
+        opacity: 0.5;
+        color: gray;
+    }
+	
+
+		</style>
+	</head>
+	<body>
+		<div class="navbar">
+			<a href="/userhome">Home</a>
+
+			<div class="dropdown">
+				<a href="javascript:void(0);">Tests ▼</a>
+				<div class="dropdown-menu">
+					<a id="aptitudeLink" href="/aptitudetest">Aptitude Test</a>
+					<a id="personalityLink" href="/personalitytest">Personality Test</a>
+				</div>
+			</div>
+
+			<div class="user-dropdown">
+				<a href="javascript:void(0);">User ▼</a>
+				<div class="user-dropdown-menu">
+					<a href="/editprofile">Edit Profile</a>
+					<a href="/">Logout</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<header class="m-2">
+				<h1>Welcome,
+					<span id="displayName">User</span>!</h1>
+				<p>Your dashboard has been updated with your details.</p>
+			</header>
+
+			<div class="user-info">
+				<h3>Your Details</h3>
+				<p>
+					<strong>Email:</strong>
+					<span id="userEmail"></span>
+				</p>
+				<p>
+					<strong>Mobile:</strong>
+					<span id="userMobile"></span>
+				</p>
+				<p>
+					<strong>Username:</strong>
+					<span id="userName"></span>
+				</p>
+				<p>Aptitude Test Score:
+					<strong id="Aptitude Test Score">0</strong>
+				</p>
+				<p>Personality Test Score:
+					<strong id="Personality Test Score">0</strong>
+				</p>
+			</div>
+		</div>
+
+		<script>
+			async function fetchUserScores() {
+				const response = await fetch('/get_user_scores');
+				const data = await response.json();
+
+				if (data.success) {
+					document.getElementById("Aptitude Test Score").innerText = data.scores.Aptitude || 0;
+					document.getElementById("Personality Test Score").innerText = data.scores.Personality || 0;
+				} else {
+					document.getElementById("Aptitude Test Score").innerText = 0;
+					document.getElementById("Personality Test Score").innerText = 0;
+				}
+			}
+
+			window.onload = function () {
+				fetchUserScores();
+			};
+
+			function getCookie(name) {
+				let cookieArr = document.cookie.split(";");
+
+				for (let i = 0; i < cookieArr.length; i++) {
+					let cookiePair = cookieArr[i].trim().split("=");
+
+					if (cookiePair[0] === name) {
+						return decodeURIComponent(cookiePair[1]);
+					}
+				}
+				return null; // Return null if cookie not found
+			}
+			document.addEventListener("DOMContentLoaded", function () { // Retrieve user data from cookies
+				let username = getCookie("username") || "User";
+				let email = getCookie("email") || "Not Provided";
+				let mobile = getCookie("mobile") || "Not Provided";
+				// Update UI with user data
+				document.getElementById("displayName").innerText = username;
+				document.getElementById("userName").innerText = username;
+				document.getElementById("userEmail").innerText = email;
+				document.getElementById("userMobile").innerText = mobile;
+			});
+		</script>
+
+
+
+<script>
+    async function checkTestStatus(testType, linkId) {
+        console.log(`Checking test status for: ${testType}`); // Debugging
+
+        const email = getCookie("email");
+        if (!email) {
+            console.log("No email found in cookies.");
+            return;
+        }
+        console.log(`Email being sent: ${email}`); // Debugging
+
+        try {
+            const response = await fetch("/check_test_status", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ test_type: testType })
+            });
+
+            console.log(`Response status: ${response.status}`); // Debugging
+            const data = await response.json();
+            console.log(`Response for ${testType}:`, data); // Debugging
+
+            if (data.taken) {
+                console.log(`Disabling ${testType} test link`); // Debugging
+
+                const linkElement = document.getElementById(linkId);
+                if (linkElement) {
+                    linkElement.classList.add("disabled-link");
+                    linkElement.setAttribute("href", "#");  // Disable the link
+                    linkElement.style.pointerEvents = "none";  // Prevent clicking
+                    linkElement.style.opacity = "0.5";  // Grey it out
+                }
+            }
+        } catch (error) {
+            console.error("Error checking test status:", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        checkTestStatus("aptitude", "aptitudeLink");
+        checkTestStatus("personality", "personalityLink");
+    });
+
+    function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for (let i = 0; i < cookieArr.length; i++) {
+            let cookiePair = cookieArr[i].trim().split("=");
+            if (cookiePair[0] === name) {
+                console.log(`Cookie found: ${cookiePair[0]} = ${decodeURIComponent(cookiePair[1])}`); // Debugging
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        console.log("Cookie not found");
+        return null;
+    }
+</script>
+	</body>
+</html>

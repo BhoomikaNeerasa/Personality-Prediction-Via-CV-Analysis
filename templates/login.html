@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Login</title>
+
+		<!-- Bootstrap CSS -->
+		<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Custom CSS -->
+		<style>
+			body {
+				background-color: #d8c9ae;
+				font-family: Arial, sans-serif;
+			}
+
+			.user-box {
+				min-height: 100vh;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-items: center;
+				gap: 30px;
+				padding: 20px;
+			}
+
+			.card {
+				width: 100%;
+				height: 100%;
+				max-width: 400px;
+				padding: 25px;
+				border-radius: 10px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+				background: #ffffff;
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+			h2 {
+				font-size: 26px;
+				margin-bottom: 15px;
+				color: #333;
+			}
+
+			.login-container label {
+				font-weight: bold;
+				margin-bottom: 5px;
+				display: block;
+				text-align: left;
+				color: #555;
+			}
+
+			.login-container input[type="text"],
+			.login-container input[type="password"] {
+				width: 100%;
+				padding: 12px;
+				margin-bottom: 15px;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				font-size: 16px;
+			}
+
+			.login-container input[type="submit"] {
+				width: 100%;
+				padding: 12px;
+				background-color: #575757;
+				color: #fff;
+				border: none;
+				border-radius: 5px;
+				font-size: 18px;
+				cursor: pointer;
+				transition: background-color 0.3s ease;
+			}
+
+			.login-container input[type="submit"]:hover {
+				background-color: #a18a4f;
+			}
+
+			.error {
+				color: red;
+				font-size: 14px;
+				margin-bottom: 10px;
+				text-align: center;
+			}
+
+			p {
+				text-align: center;
+				color: white;
+				padding: 12px;
+				border-radius: 10px;
+				margin-top: 15px;
+				background-color: #575757;
+				font-size: 15px;
+			}
+
+			a {
+				text-decoration: none;
+				color: #0056b3;
+				font-weight: bold;
+				transition: color 0.3s;
+			}
+
+			a:hover {
+				color: #a18a4f;
+			}
+
+			/* Ensure equal height */
+			.card-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 30px;
+				align-items: stretch;
+			}
+
+			.card {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				flex: 1;
+			}
+			.email_box{
+				width: 100%;
+				padding: 12px;
+				margin-bottom: 15px;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				font-size: 16px;
+			}
+			.password-container {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    #admin-password {
+        width: 100%;
+        padding: 10px;
+        padding-right: 40px; /* Space for the eye icon */
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 2px;
+        top: 54%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        width: 24px; /* Adjust size as needed */
+        height: 24px;
+    }
+	.eye{
+		position: absolute;
+        right: 2px;
+        top: 56%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        width: 24px; /* Adjust size as needed */
+        height: 24px;
+	}
+	.password-container {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        padding-right: 40px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+	.user-box {
+        min-height: 100vh;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    .card {
+        width: 100%;
+        height: 100%;
+        max-width: 400px;
+        min-height: 389px;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        background: #ffffff;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"] {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .password-container {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        align-items: stretch;
+    }
+
+    .card {
+        flex: 1 1 400px;
+    }
+
+		</style>
+	</head>
+	<body>
+
+		<div class="container">
+			<p>
+				Welcome back! Log in to your account to access your personalized dashboard, manage your profile, and stay connected. 
+																																																																																																								            If you’re experiencing any issues, please contact support for assistance.
+			</p>
+		</div>
+
+		<div
+			class="user-box card-container">
+			<!-- User Login -->
+			<div class="card">
+				<div class="login-container">
+					<h2>User Login</h2>
+					<form action="/auth" id="userLoginForm" method="post">
+						<div class="error" id="error-message"></div>
+
+						<input type="hidden" name="role" value="user">
+
+						<!-- <label for="username">Username</label>
+						<input type="text" id="username" name="username" placeholder="Enter your username" required> -->
+						<label for="email">Email</label>
+				<input class="email_box" type="email" id="email" name="email" style="width: 100%;" placeholder="Enter your email" required>
+
+
+						<label for="password">Password</label>
+						<input type="password"  id="password" name="password" value=""  placeholder="Enter your password" required>
+						<img src="https://cdn-icons-png.flaticon.com/512/709/709612.png" 
+						id="toggleIconUser" class="toggle-password"
+						onclick="togglePassword('password', 'toggleIconUser')" 
+						alt="Show Password">
+						<button type="submit" class="btn btn-secondary w-100">Login</button>
+					</form>
+				
+					<p>Don't have an account?
+						<a href="/register">Register</a>
+					</p>
+				</div>
+			</div>
+
+			<!-- Admin Login -->
+			<div class="card">
+				<div class="login-container">
+					<h2>Admin Login</h2>
+					<form action="/login" id="adminloginform" method="post">
+						<div class="error" id="error-message"></div>
+						<input type="hidden" name="role" value="admin">
+
+						<label for="admin-email">Email</label>
+						<input class="email_box" type="email" id="admin-email" style="width: 100%;" name="email" placeholder="Enter your email" required>
+						<!-- <label for="admin-username">Username</label>
+						<input type="text" id="admin-username" name="username" placeholder="Enter your username" required> -->
+
+						<label for="admin-password">Password</label>
+						<input type="admin-password" id="admin-password" name="password" placeholder="Enter your password" required>
+						<img class="eye" src="https://cdn-icons-png.flaticon.com/512/709/709612.png" 
+						id="toggleIconAdmin" class="toggle-password"
+						onclick="togglePassword('admin-password', 'toggleIconAdmin')" 
+						alt="Show Password">
+						<button style="margin-top: 16px;" type="submit" class="btn btn-secondary w-100">Login</button>
+					</form>
+					<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+					<script>
+						$(document).ready(function () {
+							$("#adminloginform").submit(function (event) {
+								event.preventDefault(); // Prevent default form submission
+
+								let adminData = {
+									role: "admin",
+									email: $("#admin-email").val(),
+									password: $("#admin-password").val()
+								};
+
+								$.ajax({
+									url: "/authadmin",
+									type: "POST",
+									contentType: "application/json",
+									data: JSON.stringify(adminData),
+									dataType: "json",
+									success: function (result) {
+										if (result.success) {
+											let user = result.admin;
+											console.log(user)
+
+											// Store user data in cookies
+											document.cookie = `username=${
+												user.username
+											}; path=/`;
+											document.cookie = `email=${
+												user.email
+											}; path=/`;
+											document.cookie = `mobile=${
+												user.mobile
+											}; path=/`;
+											document.cookie = `role=${
+												user.role
+											}; path=/`;
+											window.location.href = "/adminhome"; // Redirect on success
+										} else {
+											alert("Login failed! " + (
+												result.error || "Invalid credentials."
+											));
+											window.location.href = "/"; // Redirect to home on failure
+										}
+									},
+									error: function (xhr, status, error) {
+										console.error("Error:", error);
+										alert("Something went wrong! Please try again.");
+										window.location.href = "/";
+									}
+								});
+							});
+						});
+					</script>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				$('input').val('')
+				$("input").attr("autocomplete", "off");
+				// Function to delete all cookies
+				function clearAllCookies() {
+					let cookies = document.cookie.split(";");
+
+					for (let i = 0; i < cookies.length; i++) {
+						let cookie = cookies[i];
+						let eqPos = cookie.indexOf("=");
+						let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+						document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+					}
+				}
+
+
+				clearAllCookies();
+				// Call function to clear cookies
+			});
+		</script>
+			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+				
+			<script>
+				function togglePassword(inputId, iconId) {
+					let passwordInput = document.getElementById(inputId);
+					let toggleIcon = document.getElementById(iconId);
+			
+					if (passwordInput.type === "password") {
+						passwordInput.type = "text";
+						toggleIcon.src = "https://cdn-icons-png.flaticon.com/512/2767/2767146.png"; // Closed eye icon
+					} else {
+						passwordInput.type = "password";
+						toggleIcon.src = "https://cdn-icons-png.flaticon.com/512/709/709612.png"; // Open eye icon
+					}
+				}
+			</script>
+			<script>
+				$(document).ready(function () {
+					$("#userLoginForm").submit(function (event) {
+						event.preventDefault(); // Prevent default form submission
+
+						let userData = {
+							email: $("#email").val(),
+							password: $("#password").val()
+						};
+
+						$.ajax({
+							url: "/auth",
+							type: "POST",
+							contentType: "application/json",
+							data: JSON.stringify(userData),
+							dataType: "json",
+							success: function (result) {
+								if (result.success) {
+									let user = result.user;
+
+									// Store user data in cookies
+									document.cookie = `username=${
+										user.username
+									}; path=/`;
+									document.cookie = `email=${
+										user.email
+									}; path=/`;
+									document.cookie = `mobile=${
+										user.mobile
+									}; path=/`;
+									document.cookie = `role=${
+										user.role
+									}; path=/`;
+
+									window.location.href = "/userhome"; // Redirect on success
+								} else {
+									alert("Login failed! " + (
+										result.error || "Invalid credentials."
+									));
+								}
+							},
+							error: function (xhr, status, error) {
+								console.error("Error:", error);
+								alert("Something went wrong! Please try again.");
+							}
+						});
+					});
+				});
+			</script>
+			<script>
+				fetch("http://localhost:9999/auth", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error("Error:", error));
+
+			</script>
+	</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload CV for Personality Prediction</title>
+    <style>
+        	form {
+				max-width: 100%;
+				margin: 0 auto;
+				padding: 20px;
+				border: 1px solid #ccc;
+				border-radius: 8px;
+				background-color: #575757;
+			}
+
+			label {
+				display: block;
+				color: white;
+				text-align: start;
+				font-size: 16px;
+				margin-bottom: 8px;
+				font-weight: bold;
+			}
+
+			select {
+				max-width: 100%;
+				padding: 10px;
+				font-size: 16px;
+				border-radius: 4px;
+				border: 1px solid #ccc;
+				margin-bottom: 20px;
+			}
+
+
+			button {
+				display: inline-block;
+				width: 100%;
+				padding: 10px 15px;
+				font-size: 16px;
+				/* background-color: #4CAF50; */
+				color: black;
+				border: none;
+				background-color: #d8c9ae;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+            .submit-btn {
+				background-color: #d8c9ae;
+				color: white;
+				padding: 10px 20px;
+				border: none;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			.submit-btn:hover {
+				background-color: #575757;
+			}
+			.container {
+				width: 80%;
+				margin: 30px auto;
+				text-align: center;
+			}
+            body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+
+				background-color: #d8c9ae;
+			}
+            .btn:hover {
+				background-color: #a18a4f;
+				color: white;
+			}
+			header {
+				background-color: #575757;
+				color: white;
+				text-align: center;
+				padding: 20px 0;
+			}
+            input[type="text"] {
+				width: 100%; /* Full width */
+				max-height: 40px; /* Set a max height */
+				padding: 8px; /* Add some padding */
+				border: 1px solid #ccc; /* Add a border */
+				border-radius: 4px; /* Rounded corners */
+			}
+            .form-group {
+				margin-bottom: 15px;
+				text-align: left;
+			}
+
+			.form-group label {
+				font-size: 16px;
+				color: white;
+			}
+
+			.form-group input,
+			.form-group textarea {
+				width: 100%;
+				padding: 10px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				color: white;
+				font-size: 16px;
+			}
+			.navbar {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 15px 20px;
+				background-color: #8d763c;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				position: relative;
+
+			}
+
+			.nav-container {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.nav-left,
+			.nav-right {
+				display: flex;
+				gap: 20px;
+			}
+
+			.nav-link {
+				text-decoration: none;
+				color: black;
+				padding: 10px;
+				transition: background-color 0.3s ease, color 0.3s ease;
+				font-weight: bold;
+			}
+
+			.nav-link:hover {
+				background-color: #575757;
+				color: white;
+				border-radius: 5px;
+			}
+			@media(max-width: 768px) {
+				.nav-left,
+				.nav-right {
+					display: none;
+					flex-direction: column;
+					background-color: #a18a4f;
+					position: absolute;
+					top: 60px;
+					left: 0;
+					width: 100%;
+					text-align: center;
+					padding: 10px 0;
+				}
+
+				.nav-left.active,
+				.nav-right.active {
+					display: flex;
+				}
+			}
+			.navbar a {
+				color: black;
+				text-decoration: none;
+				padding: 10px 20px;
+				transition: background-color 0.3s ease;
+			}
+	</style>
+</head>
+<body>
+    <nav class="navbar">
+		<div class="nav-container">
+			<div class="nav-left">
+				<a class="nav-link" href="/adminhome">Home</a>
+				
+				</div>
+			</div>
+			<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+				</div>
+			</div>
+		</nav>
+    <div class="container">
+        <h2>Upload CV for Personality Prediction</h2>
+        <!-- <form action="/" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file"  name="file"  required>
+            </div>
+            <button type="submit" class="btn" style="max-width: 40%;">Analyze Personality</button>
+        </form> -->
+		<form id="preferredCVUploadForm" action="http://localhost:9999/upload-preferred-cv" method="POST" enctype="multipart/form-data">
+			<label for="modelSelect">Choose a Model:</label>
+			<select id="modelSelect" name="model">
+				<option value="logistic_regression">Logistic Regression</option>
+				<option value="random_forest">Random Forest</option>
+				<option value="svm">Support Vector Machine</option>
+				<option value="decision_tree">Decision Tree</option>
+			</select>
+			<br><br>
+			<input type="file" id="preferredCVFile" name="file" required />
+			<button type="submit">Upload CV</button>
+		</form>	
+    </div> 
+	<script>
+        // document.getElementById("preferredCVUploadForm").addEventListener("submit", async function(event) {
+        //     event.preventDefault();
+
+        //     let fileInput = document.getElementById("preferredCVFile");
+        //     let modelSelect = document.getElementById("modelSelect");
+        //     let selectedModel = modelSelect.value.trim().toLowerCase();
+
+        //     let formData = new FormData();
+        //     formData.append("cv", fileInput.files[0]);
+        //     formData.append("model", selectedModel);
+
+        //     console.log("🚀 Sending Model:", selectedModel);
+        //     console.log("🚀 Sending File:", fileInput.files[0].name);
+
+        //     try {
+        //         let response = await fetch("http://localhost:9999/upload-preferred-cv", {
+        //             method: "POST",
+        //             body: formData
+        //         });
+
+        //         let result = await response.json();
+        //         console.log("✅ Server Response:", result);
+
+        //         if (result.success) {
+        //             alert("CV uploaded successfully! Model used: " + selectedModel);
+        //         } else {
+        //             alert("Upload failed: " + result.error);
+        //         }
+        //     } catch (error) {
+        //         alert("Upload failed. Check console.");
+        //         console.error("❌ Error uploading CV:", error);
+        //     }
+        // });
+
+
+		document.getElementById("preferredCVUploadForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    let fileInput = document.getElementById("preferredCVFile");
+    let modelSelect = document.getElementById("modelSelect");  
+    let selectedModel = modelSelect.value.trim().toLowerCase();  
+
+    if (!selectedModel) {
+        alert("Please select a model!");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("file", fileInput.files[0]);  // ✅ Ensure correct field name
+    formData.append("model", selectedModel);      // ✅ Ensure model name is sent correctly
+
+    console.log("🚀 Sending Model:", selectedModel);
+    console.log("🚀 Sending File:", fileInput.files[0].name);
+
+    try {
+        let response = await fetch("http://localhost:9999/upload-preferred-cv", {  
+            method: "POST",
+            body: formData
+        });
+
+        let result = await response.json();
+        console.log("✅ Server Response:", result);  
+
+        if (result.success) {
+            alert("CV uploaded successfully! Model used: " + selectedModel);
+        } else {
+            alert("Upload failed: " + result.error);
+        }
+    } catch (error) {
+        alert("Upload failed. Check console.");
+        console.error("❌ Error uploading CV:", error);
+    }
+});
+
+
+    </script>
+</body>
+</html>
+
+</body>
+</html> 
+
+  

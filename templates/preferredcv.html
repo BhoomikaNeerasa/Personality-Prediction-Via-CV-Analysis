@@ -1,0 +1,325 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferred CVs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #d8c9ae;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #a18a4f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            color: black;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #575757;
+            color: white;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        tr:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+		.navbar {
+				background: #333;
+				padding: 15px 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			}
+
+			.navbar a {
+				color: white;
+				text-decoration: none;
+				font-size: 18px;
+				padding: 10px 15px;
+				border-radius: 5px;
+				transition: background 0.3s ease-in-out;
+			}
+
+			.navbar a:hover {
+				background: #a18a4f;
+				color: white;
+			}
+    </style>
+</head>
+<body>
+	<div class="navbar">
+		<a href="/adminhome">Home</a>
+	</div>
+    <div class="container">
+        <h2>Selected Candidates</h2>
+        <input type="text" id="jobIdInput" placeholder="Enter Job ID">
+        <button onclick="fetchPreferredCVs()">Search</button>
+        <table id="cvTable">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Download CV</th>
+                    <th>Matched Skills</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function fetchPreferredCVs() {
+            let jobId = $('#jobIdInput').val().trim();
+            if (!jobId) {
+                alert('Please enter a Job ID.');
+                return;
+            }
+            
+            $.ajax({
+                url: `/preferred_cv_data?job_id=${jobId}`,
+                method: 'GET',
+                success: function(response) {
+                    console.log("Server Response:", response);
+                    if (response.success) {
+                        populateTable(response.matched_candidates);
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error fetching data: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function populateTable(matchedCandidates) {
+            let tableBody = $('#cvTable tbody');
+            tableBody.empty();
+            
+            matchedCandidates.forEach(candidate => {
+                let downloadButton = candidate.download_link.startsWith("/download_cv?cv_id=") 
+                    ? `<a href="${candidate.download_link}" class="btn" target="_blank">Download</a>` 
+                    : `<span class="text-muted">No CV Available</span>`;
+                
+                let matchedSkills = candidate.matched_skills ? candidate.matched_skills.join(", ") : "None";
+                
+                let row = `<tr>
+                    <td>${candidate.filename || 'Unknown Filename'}</td>
+                    <td>${downloadButton}</td>
+                    <td>${matchedSkills}</td>
+                </tr>`;
+                tableBody.append(row);
+            });
+        }
+    </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferred CVs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #d8c9ae;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #a18a4f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            color: black;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #575757;
+            color: white;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        tr:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+		.navbar {
+				background: #333;
+				padding: 15px 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			}
+
+			.navbar a {
+				color: white;
+				text-decoration: none;
+				font-size: 18px;
+				padding: 10px 15px;
+				border-radius: 5px;
+				transition: background 0.3s ease-in-out;
+			}
+
+			.navbar a:hover {
+				background: #a18a4f;
+				color: white;
+			}
+    </style>
+</head>
+<body>
+	<div class="navbar">
+		<a href="/adminhome">Home</a>
+	</div>
+    <div class="container">
+        <h2>Selected Candidates</h2>
+        <input type="text" id="jobIdInput" placeholder="Enter Job ID">
+        <button onclick="fetchPreferredCVs()">Search</button>
+        <table id="cvTable">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Download CV</th>
+                    <th>Matched Skills</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function fetchPreferredCVs() {
+            let jobId = $('#jobIdInput').val().trim();
+            if (!jobId) {
+                alert('Please enter a Job ID.');
+                return;
+            }
+            
+            $.ajax({
+                url: `/preferred_cv_data?job_id=${jobId}`,
+                method: 'GET',
+                success: function(response) {
+                    console.log("Server Response:", response);
+                    if (response.success) {
+                        populateTable(response.matched_candidates);
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function(xhr) {
+                    alert('Error fetching data: ' + xhr.responseText);
+                }
+            });
+        }
+
+        function populateTable(matchedCandidates) {
+            let tableBody = $('#cvTable tbody');
+            tableBody.empty();
+            
+            matchedCandidates.forEach(candidate => {
+                let downloadButton = candidate.download_link.startsWith("/download_cv?cv_id=") 
+                    ? `<button onclick="window.location.href='${candidate.download_link}'">Download</button>` 
+                    : `<span class="text-muted">No CV Available</span>`;
+                
+                let matchedSkills = candidate.matched_skills ? candidate.matched_skills.join(", ") : "None";
+                
+                let row = `<tr>
+                    <td>${candidate.filename || 'Unknown Filename'}</td>
+                    <td>${downloadButton}</td>
+                    <td>${matchedSkills}</td>
+                </tr>`;
+                tableBody.append(row);
+            });
+        }
+    </script>
+</body>
+</html>
