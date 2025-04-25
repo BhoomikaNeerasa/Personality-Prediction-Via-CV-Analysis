@@ -16,7 +16,7 @@ import os
 
 
 # MongoDB Connection
-MONGO_URI = "mongodb+srv://nani:nani123@cluster0.d1dd8.mongodb.net/"
+MONGO_URI = "mongodb+srv://username:password@cluster0.d1dd8.mongodb.net/"
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URI)
 db = client["testdb"]
 users_collection = db["users"]
