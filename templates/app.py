@@ -92,39 +92,6 @@ class AuthAdminHandler(tornado.web.RequestHandler):
 
         except Exception as e:
             self.write({"success": False, "error": str(e)})
-# class AuthAdminHandler(tornado.web.RequestHandler):
-#     async def post(self):
-#         try:
-#             data = json.loads(self.request.body.decode("utf-8"))
-#             email = data.get("email")
-#             password = data.get("password")
-
-#             if not email or not password:
-#                 self.write({"success": False, "error": "Missing email or password"})
-#                 return
-
-#             # Find admin user in the database
-#             admin = await users_collection.find_one({"email": email, "password": password, "role": "admin"})
-
-#             if admin:
-#                 admin_data = {
-#                     "id": str(admin["_id"]),
-#                     "username": admin["name"],
-#                     "email": admin.get("email", ""),
-#                     "mobile": admin.get("mobile", ""),
-#                     "role": "admin"
-#                 }
-                
-#                 # Set a secure cookie for session management
-#                 self.set_secure_cookie("admin", email, httponly=True)
-
-#                 self.write({"success": True, "admin": admin_data})
-#             else:
-#                 self.write({"success": False, "error": "Invalid credentials"})
-
-#         except Exception as e:
-#             self.write({"success": False, "error": str(e)})
-
 
 class AuthHandler(tornado.web.RequestHandler):
     async def post(self):
